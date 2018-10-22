@@ -41,8 +41,7 @@ RUN conda install -y python=${python_version} && \
     pip install --upgrade pip && \
     pip install \
       sklearn_pandas \
-      tensorflow-gpu \
-      cntk-gpu && \
+      tensorflow-gpu && \
     conda install \
       bcolz \
       h5py \
@@ -56,14 +55,16 @@ RUN conda install -y python=${python_version} && \
       pygpu \
       pyyaml \
       scikit-learn \
-      six \
-      theano
-#RUN git clone git://github.com/keras-team/keras.git /src && pip install -e /src[tests] && \
-#    pip install git+git://github.com/keras-team/keras.git && \
-RUN conda install keras-gpu
-RUN conda clean -yt
+      six
 
-ADD theanorc /home/keras/.theanorc
+RUN conda install -c conda-forge librosa
+
+RUN git clone git://github.com/keras-team/keras.git /src && pip install -e /src[tests] && \
+    pip install git+git://github.com/keras-team/keras.git && \
+
+#RUN conda install keras-gpu
+
+RUN conda clean -yt
 
 ENV PYTHONPATH='/src/:$PYTHONPATH'
 
