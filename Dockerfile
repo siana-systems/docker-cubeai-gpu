@@ -60,7 +60,7 @@ RUN conda install -y python=${python_version} && \
 RUN conda install -c conda-forge librosa
 
 RUN git clone git://github.com/keras-team/keras.git /src && pip install -e /src[tests] && \
-    pip install git+git://github.com/keras-team/keras.git && \
+    pip install git+git://github.com/keras-team/keras.git
 
 #RUN conda install keras-gpu
 
