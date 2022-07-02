@@ -4,7 +4,7 @@ This repo provides a docker image for deep-learning development targeting the ST
 
 ## Using the SIANA image
 
-Note: the following instructions were tested on Linux/Ubuntu 20.04 LTS with nvidia 510 driver.
+Note: the following instructions were tested on Linux/Ubuntu 20.04 LTS with nvidia driver 515.48.07.
 
 To run a container from the SIANA hosted image on Docker Hub, you'll need to:
   * have an NVIDIA graphic card (to check, run: nvidia-smi)
