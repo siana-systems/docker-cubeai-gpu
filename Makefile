@@ -2,7 +2,9 @@ help:
 	@cat Makefile
 
 IMAGE="siana/keras-gpu"
+GPU?=0
 DOCKER_FILE=Dockerfile
+DOCKER=GPU=$(GPU) nvidia-docker
 BACKEND=tensorflow
 PYTHON_VERSION?=3.6
 CUDA_VERSION?=9.0
@@ -13,6 +15,15 @@ SRC?=$(shell dirname `pwd`)
 build:
 	docker build -t $(IMAGE) --build-arg python_version=$(PYTHON_VERSION) --build-arg cuda_version=$(CUDA_VERSION) --build-arg cudnn_version=$(CUDNN_VERSION) -f $(DOCKER_FILE) .
 
+bash: build
+	$(DOCKER) run -it -v $(SRC):/src/workspace --env KERAS_BACKEND=$(BACKEND) $(IMAGE) bash
+
+ipython: build
+	$(DOCKER) run -it -v $(SRC):/src/workspace --env KERAS_BACKEND=$(BACKEND) $(IMAGE) ipython
+
+notebook: build
+	$(DOCKER) run -it -v $(SRC):/src/workspace --net=host --env KERAS_BACKEND=$(BACKEND) $(IMAGE)
+
 test: build
-	nvidia-docker run -it -v $(SRC):/src/workspace --env KERAS_BACKEND=$(BACKEND) $(IMAGE) py.test $(TEST)
+	$(DOCKER) run -it -v $(SRC):/src/workspace --env KERAS_BACKEND=$(BACKEND) $(IMAGE) py.test $(TEST)
 
