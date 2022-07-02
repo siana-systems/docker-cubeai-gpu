@@ -46,9 +46,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libzmq3-dev \
         pkg-config \
         software-properties-common \
-        unzip
+        unzip \
         nano \
-        wget && \
+        wget
 
 # Install TensorRT if not building for PowerPC
 # NOTE: libnvinfer uses cuda11.1 versions
@@ -127,13 +127,13 @@ RUN conda install -c conda-forge librosa
 RUN conda clean -yt
 
 # Some TF tools expect a "python" binary
+USER root
 RUN ln -s $(which python3) /usr/local/bin/python
 
+# DONE!
+USER $NB_USER
 ENV PYTHONPATH='/src/:$PYTHONPATH'
-
 WORKDIR /src
-
 EXPOSE 8888
-
 CMD jupyter notebook --port=8888 --ip=0.0.0.0
 
